@@ -1,0 +1,168 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pataconexpress.fastfood.fragments.EliminarProductoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fragmentRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textViewTituloElim"
+                android:layout_width="244dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="Eliminar Producto"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNombreElim"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Nombre"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloElim" />
+
+            <EditText
+                android:id="@+id/editTextNombreElim"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombreElim" />
+
+            <TextView
+                android:id="@+id/textViewDescripcionElim"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Descripcion"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNombreElim" />
+
+            <EditText
+                android:id="@+id/editTextDescripcionElim"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="Descripcion"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionElim" />
+
+            <TextView
+                android:id="@+id/textViewCategoriaElim"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Categoria"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionElim" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoriaElim"
+                android:layout_width="261dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCategoriaElim" />
+
+            <TextView
+                android:id="@+id/textViewPrecioElim"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Precio"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriaElim" />
+
+            <EditText
+                android:id="@+id/editTextPrecioElim"
+                android:layout_width="259dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Precio"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPrecioElim" />
+
+            <Button
+                android:id="@+id/buttonEliminar"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Eliminar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioElim" />
+
+            <Button
+                android:id="@+id/buttonCancelarElim"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Cancelar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toEndOf="@+id/buttonEliminar"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioElim" />
+
+            <ImageButton
+                android:id="@+id/imageButtonBuscarElim"
+                android:layout_width="37dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="44dp"
+                android:background="@color/accent"
+                android:src="@drawable/ic_menu_search"
+                app:layout_constraintStart_toEndOf="@+id/editTextNombreElim"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloElim" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>

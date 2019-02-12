@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pataconexpress.fastfood.fragments.RegistrarProductoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fragmentRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textViewTituloReg"
+                android:layout_width="244dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="Registrar Producto"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNombreReg"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Nombre"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloReg" />
+
+            <EditText
+                android:id="@+id/editTextNombreReg"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombreReg" />
+
+            <TextView
+                android:id="@+id/textViewDescripcionReg"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Descripcion"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNombreReg" />
+
+            <EditText
+                android:id="@+id/editTextDescripcionReg"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="Descripcion"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionReg" />
+
+            <TextView
+                android:id="@+id/textViewCategoriaReg"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Categoria"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionReg" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoriaReg"
+                android:layout_width="261dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCategoriaReg" />
+
+            <TextView
+                android:id="@+id/textViewPrecioReg"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Precio"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriaReg" />
+
+            <EditText
+                android:id="@+id/editTextPrecioReg"
+                android:layout_width="259dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Precio"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPrecioReg" />
+
+            <Button
+                android:id="@+id/buttonRegistrarReg"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Registrar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioReg" />
+
+            <Button
+                android:id="@+id/buttonCancelarReg"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Cancelar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toEndOf="@+id/buttonRegistrarReg"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioReg" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>

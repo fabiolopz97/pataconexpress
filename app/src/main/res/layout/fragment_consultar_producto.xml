@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pataconexpress.fastfood.fragments.ConsultarProductoFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fragmentConsultar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textViewTituloCons"
+                android:layout_width="244dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginLeft="72dp"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="Consultar Producto"
+                android:textSize="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewNombreCons"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Nombre"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewTituloCons" />
+
+            <EditText
+                android:id="@+id/editTextNombreCons"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Nombre"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewNombreCons" />
+
+            <TextView
+                android:id="@+id/textViewDescripcionCons"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Descripcion"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNombreCons" />
+
+            <EditText
+                android:id="@+id/editTextDescripcionCons"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="Descripcion"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewDescripcionCons" />
+
+            <TextView
+                android:id="@+id/textViewCategoriaCons"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                android:text="Categoria"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDescripcionCons" />
+
+            <Spinner
+                android:id="@+id/spinnerCategoriaCons"
+                android:layout_width="261dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCategoriaCons" />
+
+            <TextView
+                android:id="@+id/textViewPrecioCons"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:text="Precio"
+                android:textSize="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerCategoriaCons" />
+
+            <EditText
+                android:id="@+id/editTextPrecioCons"
+                android:layout_width="259dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Precio"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewPrecioCons" />
+
+            <Button
+                android:id="@+id/buttonConsultar"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Consultar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioCons" />
+
+            <Button
+                android:id="@+id/buttonCancelarCons"
+                android:layout_width="147dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/accent"
+                android:text="Cancelar"
+                android:textColor="@color/primary_light"
+                app:layout_constraintStart_toEndOf="@+id/buttonConsultar"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPrecioCons" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>
