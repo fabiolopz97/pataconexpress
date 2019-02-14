@@ -1,9 +1,11 @@
 package com.pataconexpress.fastfood.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.pataconexpress.fastfood.R;
+import com.pataconexpress.fastfood.models.CategoriaDTO;
+import com.pataconexpress.fastfood.utils.GsonImpl;
+import com.pataconexpress.fastfood.utils.OkHttpImpl;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +43,8 @@ public class RegistrarProductoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    //lista de categorias
+    private List<CategoriaDTO> categorias;
     //atributos
     private Button buttonRegistrar;
     private Button buttonCancelar;
@@ -94,8 +108,39 @@ public class RegistrarProductoFragment extends Fragment {
             }
         });
 
+        Request rq = new Request.Builder()
+                .url("http://192.168.1.3:8080/PataconeraExpress/api/categorias/")
+                .build();
+        OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String rta = response.body().string();
+                    Log.i("respuesta",rta);
+                    //map json to obejct
+                    categorias = GsonImpl.listFromJsonV(rta,CategoriaDTO.class);
+                    Log.i("Mapeo:",categorias.get(0).getNombreCat());
+
+                    final CategoriaDTO cats[]  =(CategoriaDTO[]) categorias.toArray();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinnerCategoria.setAdapter(new ArrayAdapter<CategoriaDTO>(getContext(),
+                                    android.R.layout.simple_spinner_dropdown_item,cats));
+                        }
+                    });
+                }
+            }
+        });
+
+
         //Enviar los datos al spinner
-        spinnerCategoria.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,categoria));
+        //spinnerCategoria.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,categoria));
 
 
         return view;
