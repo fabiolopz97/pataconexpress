@@ -13,9 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
+import com.pataconexpress.fastfood.models.Producto;
 import com.pataconexpress.fastfood.utils.GsonImpl;
 import com.pataconexpress.fastfood.utils.OkHttpImpl;
 
@@ -24,7 +26,9 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -96,7 +100,7 @@ public class RegistrarProductoFragment extends Fragment {
         buttonRegistrar = (Button) view.findViewById(R.id.buttonRegistrarReg);
         buttonCancelar = (Button) view.findViewById(R.id.buttonCancelarReg);
         editTextNombre = (EditText) view.findViewById(R.id.editTextNombreReg);
-        editTextDescripcion = (EditText) view.findViewById(R.id.editTextNombreReg);
+        editTextDescripcion = (EditText) view.findViewById(R.id.editTextDescripcionReg);
         spinnerCategoria = (Spinner) view.findViewById(R.id.spinnerCategoriaReg);
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioReg);
 
@@ -104,7 +108,7 @@ public class RegistrarProductoFragment extends Fragment {
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                registrarProducto(v);
             }
         });
 
@@ -121,12 +125,12 @@ public class RegistrarProductoFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()) {
                     String rta = response.body().string();
-                    Log.i("respuesta",rta);
+                    //Log.i("respuesta",rta);
                     //map json to obejct
                     categorias = GsonImpl.listFromJsonV(rta,CategoriaDTO.class);
-                    Log.i("Mapeo:",categorias.get(0).getNombreCat());
+                    //Log.i("Mapeo:",categorias.get(0).getNombreCat());
 
-                    final CategoriaDTO cats[]  =(CategoriaDTO[]) categorias.toArray();
+                    final List<CategoriaDTO> cats = categorias;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -137,13 +141,76 @@ public class RegistrarProductoFragment extends Fragment {
                 }
             }
         });
-
-
-        //Enviar los datos al spinner
-        //spinnerCategoria.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,categoria));
-
-
         return view;
+    }
+
+    private void registrarProducto(View v) {
+        String nombreProd;
+                String descProd;
+        double precioProd;
+        CategoriaDTO catProd;
+        nombreProd = editTextNombre.getText().toString();
+        descProd = editTextDescripcion.getText().toString();
+        precioProd = Double.parseDouble(editTextPrecio.getText().toString());
+        catProd = (CategoriaDTO) spinnerCategoria.getSelectedItem();
+        Producto nuevoProd = new Producto();
+        nuevoProd.setNombre(nombreProd);
+        nuevoProd.setDescripcion(descProd);
+        nuevoProd.setValor(precioProd);
+        nuevoProd.setCategoriasIdcategoria(catProd);
+        String json = GsonImpl.objectToJSon(nuevoProd);
+        RequestBody body = RequestBody.create(OkHttpImpl.JSON, json);
+
+       /* RequestBody formBody = new FormBody.Builder()
+                .add("nombreProducto",nombreProd)
+                .add("descripcionProducto",descProd)
+                .add("precioProducto",String.valueOf(precioProd))
+                .add("categoriasIdcategoria","{"+"idcategoria:"+String.valueOf(catProd.getIdcategoria())+","+"nombreCat:"+catProd.getNombreCat()+"}")
+                .build();*/
+        Log.i("JSON",json);
+
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.3:8080/PataconeraExpress/api/productos/create", body))
+                .enqueue(new Callback() {
+                   @Override
+                   public void onFailure(Call call,final IOException e) {
+
+                       getActivity().runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                           }
+                       });
+
+                   }
+                   @Override
+                   public void onResponse(Call call, final Response response) throws IOException {
+                       final  String rta = response.body().string();
+                       Log.i("mensaje respuesta",rta);
+                       if(response.isSuccessful()) {
+                           getActivity().runOnUiThread(new Runnable() {
+                               @Override
+                               public void run() {
+                                   Toast.makeText(getActivity().getApplicationContext(),rta,Toast.LENGTH_LONG).show();
+                               }
+                           });
+                       }else getActivity().runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               Toast.makeText(getActivity().getApplicationContext(), rta, Toast.LENGTH_LONG).show();
+                           }
+                       });
+
+
+
+                   }
+        });
+
+
+
+        //Toast.makeText(getContext(),"Producto:{"+nombreProd+"-"+descProd+"-"+precioProd+"-"+catProd.getIdcategoria()+
+                //"-"+catProd.getNombreCat()+"}",Toast.LENGTH_LONG).show();
+       // Log.i("registro:",nombreProd+"-"+descProd+"-"+precioProd+"-"+catProd.getIdcategoria()+"-"+catProd.getNombreCat());
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

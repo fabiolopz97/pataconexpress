@@ -1,6 +1,7 @@
 package com.pataconexpress.fastfood.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -19,7 +20,7 @@ public final class GsonImpl {
      */
     public static Gson getMapper(){
         if(map==null){
-            map = new Gson();
+            map = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         }
         return map;
     }

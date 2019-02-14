@@ -40,5 +40,7 @@ public final class CategoriaDTO {
     public void setNombreCat(String nombreCat) {
         this.nombreCat = nombreCat;
     }
-
+    public String toString(){
+        return nombreCat;
+    }
 }
