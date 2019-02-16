@@ -15,12 +15,12 @@
         android:id="@+id/cardViewProd"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#fff"
-        android:focusable="true"
         android:layout_gravity="center"
         app:cardCornerRadius="4dp"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/imageViewList"

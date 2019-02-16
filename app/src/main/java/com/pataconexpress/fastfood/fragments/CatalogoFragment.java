@@ -102,8 +102,6 @@ public class CatalogoFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
         return view;
     }
 

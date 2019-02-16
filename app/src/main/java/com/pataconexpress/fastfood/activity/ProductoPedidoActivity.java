@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
@@ -36,10 +38,11 @@ public class ProductoPedidoActivity extends AppCompatActivity {
         actionBar.setTitle("Pedido");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        productosPedidos = this.getAllProductosPedidos();
+        //productosPedidos = this.getAllProductosPedidos();
+        productosPedidos = new ArrayList<ProductoPedido>();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProductoPedido);
         mLayoutManager = new LinearLayoutManager(ProductoPedidoActivity.this);
-        mAdapter = new MyAdacterProductoPedido(productosPedidos, R.layout.list_producto_pedido, new MyAdacterProductoPedido.OnItemClickListener(){
+        mAdapter = new MyAdacterProductoPedido(productosPedidos, R.layout.list_producto_pedido, ProductoPedidoActivity.this, new MyAdacterProductoPedido.OnItemClickListener(){
             @Override
             public void onItemClick(ProductoPedido productoPedido, int position) {
                 //Toast.makeText(ProductoPedidoActivity.this, "hola a", Toast.LENGTH_LONG).show();
@@ -53,17 +56,36 @@ public class ProductoPedidoActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pedido, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_product:
+                this.addrequestProduct(0);
+                return true;
+            case R.id.cancel_product:
+                return true;
+            case R.id.check_product:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private List<ProductoPedido> getAllProductosPedidos () {
         return new ArrayList<ProductoPedido>(){{
-            add(new ProductoPedido("hola", "descripción", 100000, R.drawable.ic_launcher_background, 0, 0,0));
-            add(new ProductoPedido("hola1", "descripción", 200000, R.drawable.ic_menu_camera, 0, 0,0));
-            add(new ProductoPedido("hola2", "descripción", 200000, R.drawable.ic_menu_gallery, 0, 0,0));
-            add(new ProductoPedido("hola2", "descripción", 100000, R.drawable.ic_menu_delete, 0, 0,0));
+            add(new ProductoPedido("hola", "descripción", 100000, R.drawable.ic_menu_gallery, 0, 0,0));
+            add(new ProductoPedido("hola1", "descripción", 200000, R.drawable.ic_menu_gallery, 0, 0,0));
         }};
     }
 
     private void addrequestProduct(int position) {
-        productosPedidos.add(position, new ProductoPedido("hola", "descripción", 100000, R.drawable.ic_launcher_background, 1, 2,3));
+        productosPedidos.add(position, new ProductoPedido("hola", "descripción", 100000, R.drawable.ic_menu_gallery, 1, 2,3));
         mAdapter.notifyItemInserted(position);
         mLayoutManager.scrollToPosition(position);
     }

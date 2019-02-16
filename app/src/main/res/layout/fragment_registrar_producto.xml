@@ -129,27 +129,29 @@
 
             <Button
                 android:id="@+id/buttonRegistrarReg"
-                android:layout_width="147dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
+                android:layout_width="150dp"
+                android:layout_height="55dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/accent"
+                android:backgroundTint="@color/primary"
                 android:text="Registrar"
-                android:textColor="@color/primary_light"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPrecioReg" />
 
             <Button
                 android:id="@+id/buttonCancelarReg"
-                android:layout_width="147dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="55dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/accent"
                 android:text="Cancelar"
-                android:textColor="@color/primary_light"
+                android:textColor="#ffffff"
+                android:backgroundTint="@color/primary"
+                android:textSize="18dp"
                 app:layout_constraintStart_toEndOf="@+id/buttonRegistrarReg"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPrecioReg" />
 

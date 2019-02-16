@@ -1,10 +1,14 @@
 package com.pataconexpress.fastfood.fragments;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -86,11 +90,13 @@ public class RegistrarProductoFragment extends Fragment {
         spinnerCategoria = (Spinner) view.findViewById(R.id.spinnerCategoriaReg);
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioReg);
 
+
+
         //Evento Click en registrar
         buttonRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
             }
         });
 
