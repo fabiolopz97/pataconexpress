@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -111,9 +112,15 @@ public class RegistrarProductoFragment extends Fragment {
                 registrarProducto(v);
             }
         });
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear();
+            }
+        });
 
         Request rq = new Request.Builder()
-                .url("http://192.168.1.3:8080/PataconeraExpress/api/categorias/")
+                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -169,7 +176,7 @@ public class RegistrarProductoFragment extends Fragment {
                 .build();*/
         Log.i("JSON",json);
 
-        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.3:8080/PataconeraExpress/api/productos/create", body))
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.4:8080/PataconeraExpress/api/productos/create", body))
                 .enqueue(new Callback() {
                    @Override
                    public void onFailure(Call call,final IOException e) {
@@ -212,7 +219,12 @@ public class RegistrarProductoFragment extends Fragment {
        // Log.i("registro:",nombreProd+"-"+descProd+"-"+precioProd+"-"+catProd.getIdcategoria()+"-"+catProd.getNombreCat());
 
     }
+    private void clear(){
+        editTextNombre.setText("");
+        editTextDescripcion.setText("");
+        editTextPrecio.setText("");
 
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
