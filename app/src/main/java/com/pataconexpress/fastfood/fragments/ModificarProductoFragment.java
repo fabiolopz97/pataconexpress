@@ -3,7 +3,9 @@ package com.pataconexpress.fastfood.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,18 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.pataconexpress.fastfood.R;
+import com.pataconexpress.fastfood.models.CategoriaDTO;
+import com.pataconexpress.fastfood.models.Producto;
+import com.pataconexpress.fastfood.utils.GsonImpl;
+import com.pataconexpress.fastfood.utils.OkHttpImpl;
+
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,6 +56,8 @@ public class ModificarProductoFragment extends Fragment {
     private Spinner spinnerCategoria;
     private EditText editTextPrecio;
     private String[] categoria = {"Seleccione"};
+    private List<CategoriaDTO> categorias;
+    private Producto p;
 
     private OnFragmentInteractionListener mListener;
 
@@ -86,24 +102,108 @@ public class ModificarProductoFragment extends Fragment {
         imageButtonBuscar = (ImageButton) view.findViewById(R.id.imageButtonBuscarMod);
         buttonCancelar = (Button) view.findViewById(R.id.buttonCancelarMod);
         editTextNombre = (EditText) view.findViewById(R.id.editTextNombreMod);
-        editTextDescripcion = (EditText) view.findViewById(R.id.editTextNombreMod);
+        editTextDescripcion = (EditText) view.findViewById(R.id.editTextDescripcionMod);
         spinnerCategoria = (Spinner) view.findViewById(R.id.spinnerCategoriaMod);
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioMod);
+
+        Request rq = new Request.Builder()
+                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
+                .build();
+        OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String rta = response.body().string();
+                    //Log.i("respuesta",rta);
+                    //map json to obejct
+                    categorias = GsonImpl.listFromJsonV(rta, CategoriaDTO.class);
+                    //Log.i("Mapeo:",categorias.get(0).getNombreCat());
+
+                    final List<CategoriaDTO> cats = categorias;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            spinnerCategoria.setAdapter(new ArrayAdapter<CategoriaDTO>(getContext(),
+                                    android.R.layout.simple_spinner_dropdown_item,cats));
+                        }
+                    });
+                }
+            }
+        });
 
         //Evento Click en registrar
         buttonModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                modificarProducto(v);
+
+
+            }
+        });
+        imageButtonBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               buscarProducto(v);
+
 
             }
         });
 
         //Enviar los datos al spinner
-        spinnerCategoria.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,categoria));
-
-
-
+       // spinnerCategoria.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,categoria));
         return view;
+    }
+
+    private void modificarProducto(View v) {
+
+    }
+
+    private void buscarProducto(View v) {
+        String nombre = editTextNombre.getText().toString();
+        if(nombre != null){
+            Request rq = new Request.Builder()
+                    .url("http://192.168.1.4:8080/PataconeraExpress/api/productos/nombre/"+nombre)
+                    .build();
+
+            OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if(response.isSuccessful()) {
+                        String rta = response.body().string();
+                        Log.i("respuesta",rta);
+                        p =  GsonImpl.fromJsonToObject(Producto.class,rta);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                editTextNombre.setText(p.getNombre());
+                                editTextDescripcion.setText(p.getDescripcion());
+                                int count = spinnerCategoria.getAdapter().getCount();
+                                for(int i = 0; i<count;i++){
+                                    CategoriaDTO catefgoria = (CategoriaDTO) spinnerCategoria.getItemAtPosition(i);
+                                    if(catefgoria.getIdcategoria()== p.getCategoriasIdcategoria().getIdcategoria()){
+                                        spinnerCategoria.setSelection(i);
+                                    }
+                                }
+                                editTextPrecio.setText(String.valueOf(p.getValor()));
+                            }
+                        });
+                    }
+                }
+            });
+        }else{
+            Snackbar.make(getView(),"no ha llenado el parametro de busqueda nombre", Snackbar.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
