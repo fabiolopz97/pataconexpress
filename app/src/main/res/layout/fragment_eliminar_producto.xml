@@ -128,37 +128,39 @@
             <Button
                 android:id="@+id/buttonEliminar"
                 android:layout_width="147dp"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/accent"
+                android:backgroundTint="@color/primary"
                 android:text="Eliminar"
-                android:textColor="@color/primary_light"
+                android:textColor="@color/white"
+                android:textSize="18dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPrecioElim" />
 
             <Button
                 android:id="@+id/buttonCancelarElim"
                 android:layout_width="147dp"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="24dp"
-                android:background="@color/accent"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white"
+                android:textSize="18dp"
                 android:text="Cancelar"
-                android:textColor="@color/primary_light"
                 app:layout_constraintStart_toEndOf="@+id/buttonEliminar"
                 app:layout_constraintTop_toBottomOf="@+id/editTextPrecioElim" />
 
             <ImageButton
                 android:id="@+id/imageButtonBuscarElim"
-                android:layout_width="37dp"
-                android:layout_height="38dp"
+                android:layout_width="51dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="44dp"
-                android:background="@color/accent"
+                android:backgroundTint="@color/primary"
                 android:src="@drawable/ic_menu_search"
                 app:layout_constraintStart_toEndOf="@+id/editTextNombreElim"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTituloElim" />
