@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,9 +18,17 @@ import android.widget.Toast;
 import com.pataconexpress.fastfood.adapters.MyAdacterProducto;
 import com.pataconexpress.fastfood.models.Producto;
 import com.pataconexpress.fastfood.R;
+import com.pataconexpress.fastfood.utils.GsonImpl;
+import com.pataconexpress.fastfood.utils.OkHttpImpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ProductoActivity extends AppCompatActivity {
     // Atributos
@@ -39,19 +49,58 @@ public class ProductoActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Productos");
 
-        productos = this.getAllProductos();
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProducto);
-        mLayoutManager = new LinearLayoutManager(ProductoActivity.this);
-        mAdapter = new MyAdacterProducto(productos, R.layout.list_producto, ProductoActivity.this, new MyAdacterProducto.OnItemClickListener(){
-            @Override
-            public void onItemClick(Producto producto, int position) {
-                Toast.makeText(ProductoActivity.this, "hola a", Toast.LENGTH_LONG).show();
-            }
-        });
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        //Captura del id categoria
+        Bundle bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            int id = bundle.getInt("idCategoria");
+            //Toast.makeText(ProductoActivity.this, ""+id, Toast.LENGTH_LONG).show();
+            Request rq = new Request.Builder()
+                    .url("http://192.168.1.13:8080/PataconeraExpressBackend/api/productos/categoria/id/"+id)
+                    .build();
+            OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String rta = null;
+                                try {
+                                    rta = response.body().string();
+                                    Log.i("respuesta ->> ",rta);
+                                    productos = GsonImpl.listFromJsonV(rta, Producto.class);
+                                    //List<Producto> pto = productos;
+                                    //--Ingreso de datos en el recycleview
+                                    mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProducto);
+                                    mLayoutManager = new LinearLayoutManager(ProductoActivity.this);
+                                    //mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                                    mAdapter = new MyAdacterProducto(productos, R.layout.list_producto, ProductoActivity.this, new MyAdacterProducto.OnItemClickListener(){
+                                        @Override
+                                        public void onItemClick(Producto producto, int position) {
+                                            //Toast.makeText(ProductoActivity.this, "hola a", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                    mRecyclerView.setLayoutManager(mLayoutManager);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+        } else {
+            Toast.makeText(ProductoActivity.this, "El resultado esta vacío", Toast.LENGTH_LONG).show();
+        }
     }
 
     private List<Producto> getAllProductos () {

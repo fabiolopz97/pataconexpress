@@ -8,18 +8,29 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.activity.ProductoActivity;
 import com.pataconexpress.fastfood.adapters.MyAdacterCatalogo;
 import com.pataconexpress.fastfood.models.Catalogo;
+import com.pataconexpress.fastfood.models.CategoriaDTO;
+import com.pataconexpress.fastfood.utils.GsonImpl;
+import com.pataconexpress.fastfood.utils.OkHttpImpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +57,7 @@ public class CatalogoProductoFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int counter = 0;
-
+    private List<CategoriaDTO> categorias;
 
     private OnFragmentInteractionListener mListener;
 
@@ -85,21 +96,58 @@ public class CatalogoProductoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_catalogo_producto, container, false);
-        catalogos = this.getAllCatalogos();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewGridCatalogoProducto);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        mAdapter = new MyAdacterCatalogo(catalogos, R.layout.grid_catalogo,  new MyAdacterCatalogo.OnItemClickListener(){
+        final View view = inflater.inflate(R.layout.fragment_catalogo_producto, container, false);
+
+        //Consulta realizada para traer las categorias
+        Request rq = new Request.Builder()
+                .url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
+                .build();
+        OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
-            public void onItemClick(Catalogo catalogo, int position) {
-                Intent intentProducto = new Intent(getContext(), ProductoActivity.class);
-                startActivity(intentProducto);
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()){
+                    String rta = response.body().string();
+                    //Log.i("respuesta -->> ",rta);
+                    categorias = GsonImpl.listFromJsonV(rta, CategoriaDTO.class);
+                    final List<CategoriaDTO> cats = categorias;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //--Ingreso de datos en el recycleview
+                                    mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewGridCatalogoProducto);
+                                    mLayoutManager = new LinearLayoutManager(getContext());
+                                    mAdapter = new MyAdacterCatalogo(cats, R.layout.grid_catalogo,  new MyAdacterCatalogo.OnItemClickListener(){
+                                        @Override
+                                        public void onItemClick(CategoriaDTO categoria, int position) {
+                                            //Toast.makeText(getContext(), ("resultado: "+getId(position)), Toast.LENGTH_LONG).show();
+                                            Intent intentProducto = new Intent(getContext(), ProductoActivity.class);
+                                            intentProducto.putExtra("idCategoria", getId(position));
+                                            startActivity(intentProducto);
+                                        }
+                                    });
+                                    mRecyclerView.setLayoutManager(mLayoutManager);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                    mRecyclerView.setHasFixedSize(true);
+                                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        //catalogos = this.getAllCatalogos();
+
 
 
         return view;
@@ -173,4 +221,8 @@ public class CatalogoProductoFragment extends Fragment {
         catalogos.remove(position);
         mAdapter.notifyItemRemoved(position);
     }
+    private int getId(int position) {
+        return categorias.get(position).getIdcategoria();
+    }
+
 }

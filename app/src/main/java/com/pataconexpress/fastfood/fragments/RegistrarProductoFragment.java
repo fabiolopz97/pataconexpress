@@ -118,6 +118,7 @@ public class RegistrarProductoFragment extends Fragment {
        // Log.i("Ip",getString(R.string.ip));
         Request rq = new Request.Builder()
                 .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
+                //.url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -167,6 +168,7 @@ public class RegistrarProductoFragment extends Fragment {
         Log.i("JSON",json);
 
         OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://"+getString(R.string.ip)+"8080/PataconeraExpress/api/productos/create", body))
+        //OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.13:8080/PataconeraExpressBackend/api/productos/create", body))
                 .enqueue(new Callback() {
                    @Override
                    public void onFailure(Call call,final IOException e) {

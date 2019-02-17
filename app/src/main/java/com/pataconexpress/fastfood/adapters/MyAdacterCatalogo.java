@@ -9,16 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.models.Catalogo;
+import com.pataconexpress.fastfood.models.CategoriaDTO;
 
 import java.util.List;
 
 public class MyAdacterCatalogo extends RecyclerView.Adapter<MyAdacterCatalogo.ViewHolder> {
-    private List<Catalogo> catalogos;
+    //private List<Catalogo> catalogos;
+    private List<CategoriaDTO> categorias;
     private int layout;
     private OnItemClickListener listener;
 
-    public MyAdacterCatalogo(List<Catalogo> catalogos, int layout, OnItemClickListener listener) {
-        this.catalogos = catalogos;
+    public MyAdacterCatalogo(List<CategoriaDTO> categorias, int layout, OnItemClickListener listener) {
+        this.categorias = categorias;
         this.layout = layout;
         this.listener = listener;
     }
@@ -33,12 +35,12 @@ public class MyAdacterCatalogo extends RecyclerView.Adapter<MyAdacterCatalogo.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.bind(catalogos.get(i), listener);
+        viewHolder.bind(categorias.get(i), listener);
     }
 
     @Override
     public int getItemCount() {
-        return catalogos.size();
+        return categorias.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,25 +49,26 @@ public class MyAdacterCatalogo extends RecyclerView.Adapter<MyAdacterCatalogo.Vi
 
         public ViewHolder(View itemView){
             super(itemView);
+
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             this.imageViewGrid = (ImageView) itemView.findViewById(R.id.imageViewGrid);
             //itemView.setOnCreateContextMenuListener((View.OnCreateContextMenuListener) this);
         }
 
-        public void bind(final Catalogo catalogo, final OnItemClickListener listener) {
-            this.textViewName.setText(catalogo.getNombre());
-            this.imageViewGrid.setImageResource(catalogo.getImgBackground());
+        public void bind(final CategoriaDTO categoria, final OnItemClickListener listener) {
+            this.textViewName.setText(categoria.getNombreCat());
+            this.imageViewGrid.setImageResource(R.drawable.ic_menu_gallery);
             //Picasso.with(activity.getContext()).load(catalogo.getImgBackground()).fit().into(this.imageViewGrid);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(catalogo, getAdapterPosition());
+                    listener.onItemClick(categoria, getAdapterPosition());
                 }
             });
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Catalogo catalogo, int position);
+        void onItemClick(CategoriaDTO categoria, int position);
     }
 }

@@ -1,6 +1,7 @@
 package com.pataconexpress.fastfood.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
+import com.pataconexpress.fastfood.activity.ProductoActivity;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
 import com.pataconexpress.fastfood.models.Producto;
 import com.pataconexpress.fastfood.utils.GsonImpl;
@@ -105,6 +107,7 @@ public class ConsultarProductoFragment extends Fragment {
 
         Request rq = new Request.Builder()
                 .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
+                //.url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -161,8 +164,9 @@ public class ConsultarProductoFragment extends Fragment {
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host(getString(R.string.ip))
+                //.host("192.168.1.13")
                 .port(8080)
-                .addPathSegments("PataconeraExpress/api/productos/search")
+                .addPathSegments("PataconeraExpressBackend/api/productos/search")
                 .addQueryParameter("nombre",nombreProd)
                 .addQueryParameter("precio",String.valueOf(precioProd))
                 .addQueryParameter("idCat",String.valueOf(catProd.getIdcategoria()))
@@ -187,6 +191,9 @@ public class ConsultarProductoFragment extends Fragment {
                     //mapear lista de productos
                     List<Producto>productos = GsonImpl.listFromJsonV(rta,Producto.class);
                     if(productos!=null){
+                        //Intent nueva = new Intent(getContext(), CatalogoProductoFragment.class);
+                        //nueva.putExtra("hola", "key");
+                        //startActivity(nueva);
                         //aqui debe ir lo de listar los productos en la otra pestaña
                     }else{
                         //Toas messsage
