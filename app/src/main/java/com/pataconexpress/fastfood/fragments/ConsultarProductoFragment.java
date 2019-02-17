@@ -104,7 +104,7 @@ public class ConsultarProductoFragment extends Fragment {
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioCons);
 
         Request rq = new Request.Builder()
-                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
+                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -160,7 +160,7 @@ public class ConsultarProductoFragment extends Fragment {
 
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
-                .host("192.168.1.4")
+                .host(getString(R.string.ip))
                 .port(8080)
                 .addPathSegments("PataconeraExpress/api/productos/search")
                 .addQueryParameter("nombre",nombreProd)
@@ -181,7 +181,7 @@ public class ConsultarProductoFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()) {
-                    String rta = response.body().string();
+                    String rta = response.body().toString();
                     Log.i("respuesta",rta);
 
                     //mapear lista de productos

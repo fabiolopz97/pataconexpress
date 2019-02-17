@@ -115,8 +115,9 @@ public class RegistrarProductoFragment extends Fragment {
             }
         });
 
+       // Log.i("Ip",getString(R.string.ip));
         Request rq = new Request.Builder()
-                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
+                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -163,16 +164,9 @@ public class RegistrarProductoFragment extends Fragment {
         nuevoProd.setCategoriasIdcategoria(catProd);
         String json = GsonImpl.objectToJSon(nuevoProd);
         RequestBody body = RequestBody.create(OkHttpImpl.JSON, json);
-
-       /* RequestBody formBody = new FormBody.Builder()
-                .add("nombreProducto",nombreProd)
-                .add("descripcionProducto",descProd)
-                .add("precioProducto",String.valueOf(precioProd))
-                .add("categoriasIdcategoria","{"+"idcategoria:"+String.valueOf(catProd.getIdcategoria())+","+"nombreCat:"+catProd.getNombreCat()+"}")
-                .build();*/
         Log.i("JSON",json);
 
-        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.4:8080/PataconeraExpress/api/productos/create", body))
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://"+getString(R.string.ip)+"8080/PataconeraExpress/api/productos/create", body))
                 .enqueue(new Callback() {
                    @Override
                    public void onFailure(Call call,final IOException e) {
@@ -207,13 +201,6 @@ public class RegistrarProductoFragment extends Fragment {
 
                    }
         });
-
-
-
-        //Toast.makeText(getContext(),"Producto:{"+nombreProd+"-"+descProd+"-"+precioProd+"-"+catProd.getIdcategoria()+
-                //"-"+catProd.getNombreCat()+"}",Toast.LENGTH_LONG).show();
-       // Log.i("registro:",nombreProd+"-"+descProd+"-"+precioProd+"-"+catProd.getIdcategoria()+"-"+catProd.getNombreCat());
-
     }
     private void clear(){
         editTextNombre.setText("");

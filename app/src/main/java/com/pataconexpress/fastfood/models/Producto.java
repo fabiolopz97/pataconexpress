@@ -24,6 +24,12 @@ public class Producto {
 
     public Producto() {
     }
+    public Producto(int idproducto, String nombre, String descripcion, double valor) {
+        this.idproducto = idproducto;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.valor = valor;
+    }
     public Producto(int idproducto, String nombre, String descripcion, double valor, int imgBackground) {
         this.idproducto = idproducto;
         this.nombre = nombre;

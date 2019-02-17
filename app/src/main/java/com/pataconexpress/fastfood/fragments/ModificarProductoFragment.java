@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
@@ -27,6 +28,7 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -107,7 +109,7 @@ public class ModificarProductoFragment extends Fragment {
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioMod);
 
         Request rq = new Request.Builder()
-                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
+                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -135,20 +137,23 @@ public class ModificarProductoFragment extends Fragment {
                 }
             }
         });
-
+        imageButtonBuscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscarProducto(v);
+            }
+        });
+        buttonCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear();
+            }
+        });
         //Evento Click en registrar
         buttonModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 modificarProducto(v);
-
-
-            }
-        });
-        imageButtonBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               buscarProducto(v);
 
 
             }
@@ -160,6 +165,55 @@ public class ModificarProductoFragment extends Fragment {
     }
 
     private void modificarProducto(View v) {
+       String nombre = editTextNombre.getText().toString().trim();
+        String desc = editTextDescripcion.getText().toString().trim();
+        double precio = Double.parseDouble(editTextPrecio.getText().toString().trim());
+        CategoriaDTO categoria = (CategoriaDTO)spinnerCategoria.getSelectedItem();
+
+        Producto productoModificado = new Producto(p.getIdProducto(),nombre,desc,precio);
+        productoModificado.setCategoriasIdcategoria(categoria);
+        String json = GsonImpl.objectToJSon(productoModificado);
+        //Request
+        RequestBody body = RequestBody.create(OkHttpImpl.JSON, json);
+        Log.i("JSON",json);
+        //llamado a la api
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPuttRequest("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/edit/"
+                +productoModificado.getIdProducto(), body))
+                .enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call,final IOException e) {
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity().getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                    }
+                    @Override
+                    public void onResponse(Call call, final Response response) throws IOException {
+                        final  String rta = response.body().string();
+                        Log.i("mensaje respuesta",rta);
+                        if(response.isSuccessful()) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    clear();
+                                    Toast.makeText(getActivity().getApplicationContext(),rta,Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }else getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity().getApplicationContext(), rta, Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+
+
+                    }
+                });
 
     }
 
@@ -167,7 +221,7 @@ public class ModificarProductoFragment extends Fragment {
         String nombre = editTextNombre.getText().toString();
         if(nombre != null){
             Request rq = new Request.Builder()
-                    .url("http://192.168.1.4:8080/PataconeraExpress/api/productos/nombre/"+nombre)
+                    .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/nombre/"+nombre)
                     .build();
 
             OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
@@ -178,8 +232,9 @@ public class ModificarProductoFragment extends Fragment {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    String rta = response.body().string();
                     if(response.isSuccessful()) {
-                        String rta = response.body().string();
+
                         Log.i("respuesta",rta);
                         p =  GsonImpl.fromJsonToObject(Producto.class,rta);
                         getActivity().runOnUiThread(new Runnable() {
@@ -197,6 +252,14 @@ public class ModificarProductoFragment extends Fragment {
                                 editTextPrecio.setText(String.valueOf(p.getValor()));
                             }
                         });
+                    }else{
+                        Log.i("respuesta",rta);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity().getApplicationContext(),"ha ocurrido", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                 }
             });
@@ -205,7 +268,12 @@ public class ModificarProductoFragment extends Fragment {
                     .show();
         }
     }
+    private void clear(){
+        editTextNombre.setText("");
+        editTextDescripcion.setText("");
+        editTextPrecio.setText("");
 
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
