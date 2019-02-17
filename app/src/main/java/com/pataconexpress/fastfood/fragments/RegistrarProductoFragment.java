@@ -1,13 +1,11 @@
 package com.pataconexpress.fastfood.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,13 +19,10 @@ import com.pataconexpress.fastfood.models.CategoriaDTO;
 import com.pataconexpress.fastfood.models.Producto;
 import com.pataconexpress.fastfood.utils.GsonImpl;
 import com.pataconexpress.fastfood.utils.OkHttpImpl;
-
 import java.io.IOException;
 import java.util.List;
-
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
