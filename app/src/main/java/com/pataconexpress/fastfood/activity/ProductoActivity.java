@@ -70,23 +70,28 @@ public class ProductoActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String rta = response.body().toString();
-                                Log.i("respuesta ->> ",rta);
-                                productos = GsonImpl.listFromJsonV(rta, Producto.class);
-                                //List<Producto> pto = productos;
-                                //--Ingreso de datos en el recycleview
-                                mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProducto);
-                                mLayoutManager = new LinearLayoutManager(ProductoActivity.this);
-                                //mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-                                mAdapter = new MyAdacterProducto(productos, R.layout.list_producto, ProductoActivity.this, new MyAdacterProducto.OnItemClickListener(){
-                                    @Override
-                                    public void onItemClick(Producto producto, int position) {
-                                        //Toast.makeText(ProductoActivity.this, "hola a", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                                mRecyclerView.setLayoutManager(mLayoutManager);
-                                mRecyclerView.setAdapter(mAdapter);
+                                String rta = null;
+                                try {
+                                    rta = response.body().string();
+                                    Log.i("respuesta ->> ",rta);
+                                    productos = GsonImpl.listFromJsonV(rta, Producto.class);
+                                    //List<Producto> pto = productos;
+                                    //--Ingreso de datos en el recycleview
+                                    mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProducto);
+                                    mLayoutManager = new LinearLayoutManager(ProductoActivity.this);
+                                    //mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+                                    mAdapter = new MyAdacterProducto(productos, R.layout.list_producto, ProductoActivity.this, new MyAdacterProducto.OnItemClickListener(){
+                                        @Override
+                                        public void onItemClick(Producto producto, int position) {
+                                            //Toast.makeText(ProductoActivity.this, "hola a", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                                    mRecyclerView.setLayoutManager(mLayoutManager);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }
