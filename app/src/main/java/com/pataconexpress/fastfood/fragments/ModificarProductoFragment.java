@@ -107,7 +107,7 @@ public class ModificarProductoFragment extends Fragment {
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioMod);
 
         Request rq = new Request.Builder()
-                .url("http://192.168.1.4:8080/PataconeraExpress/api/categorias/")
+                .url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -167,7 +167,7 @@ public class ModificarProductoFragment extends Fragment {
         String nombre = editTextNombre.getText().toString();
         if(nombre != null){
             Request rq = new Request.Builder()
-                    .url("http://192.168.1.4:8080/PataconeraExpress/api/productos/nombre/"+nombre)
+                    .url("http://192.168.1.4:8080/PataconeraExpressBackend/api/productos/nombre/"+nombre)
                     .build();
 
             OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {

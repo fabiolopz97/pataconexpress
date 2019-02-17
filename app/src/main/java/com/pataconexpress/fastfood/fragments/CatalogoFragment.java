@@ -88,7 +88,7 @@ public class CatalogoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_catalogo, container, false);
 
-        catalogos = this.getAllCatalogos();
+        /*catalogos = this.getAllCatalogos();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleViewCatalogo);
         mLayoutManager = new LinearLayoutManager(getContext());
         mAdapter = new MyAdacterCatalogo(catalogos, R.layout.grid_catalogo,  new MyAdacterCatalogo.OnItemClickListener(){
@@ -101,7 +101,7 @@ public class CatalogoFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());*/
         return view;
     }
 

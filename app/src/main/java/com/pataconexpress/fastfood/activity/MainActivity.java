@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         ModificarProductoFragment.OnFragmentInteractionListener,
         EliminarProductoFragment.OnFragmentInteractionListener,
         ConsultarProductoFragment.OnFragmentInteractionListener,
-        CatalogoFragment.OnFragmentInteractionListener,
+        //CatalogoFragment.OnFragmentInteractionListener,
         CatalogoProductoFragment.OnFragmentInteractionListener{
 
     @Override

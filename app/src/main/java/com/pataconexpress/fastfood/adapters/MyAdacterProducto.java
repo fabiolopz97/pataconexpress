@@ -71,7 +71,7 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
             this.textViewNombre.setText(producto.getNombre());
             this.textViewDescripcion.setText(producto.getDescripcion());
             this.textViewTotal.setText("Total: $"+producto.getValor());
-            this.imageViewList.setImageResource(producto.getImgBackground());
+            this.imageViewList.setImageResource(R.drawable.ic_menu_gallery);
             //Picasso.with(activity.getContext()).load(catalogo.getImgBackground()).fit().into(this.imageViewGrid);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
