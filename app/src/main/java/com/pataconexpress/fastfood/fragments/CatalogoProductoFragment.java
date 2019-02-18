@@ -53,7 +53,7 @@ public class CatalogoProductoFragment extends Fragment {
     // Atributos
     private Catalogo catalogo;
     RecyclerView mRecyclerView;
-    private List<Catalogo> catalogos;
+   // private List<Catalogo> catalogos;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int counter = 0;
@@ -100,7 +100,7 @@ public class CatalogoProductoFragment extends Fragment {
 
         //Consulta realizada para traer las categorias
         Request rq = new Request.Builder()
-                .url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
+                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override
@@ -112,7 +112,9 @@ public class CatalogoProductoFragment extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()){
                     String rta = response.body().string();
-                    //Log.i("respuesta -->> ",rta);
+
+                    Log.i("respuesta -->> ",rta);
+
                     categorias = GsonImpl.listFromJsonV(rta, CategoriaDTO.class);
                     final List<CategoriaDTO> cats = categorias;
                     getActivity().runOnUiThread(new Runnable() {
@@ -212,7 +214,7 @@ public class CatalogoProductoFragment extends Fragment {
         }};
     }
 
-    private void addCatalogo(int position) {
+    /*private void addCatalogo(int position) {
         catalogos.add(position, new Catalogo("hola", R.drawable.ic_launcher_background));
         mAdapter.notifyItemInserted(position);
         mLayoutManager.scrollToPosition(position);
@@ -220,7 +222,7 @@ public class CatalogoProductoFragment extends Fragment {
     private void deleteCatalogo(int position) {
         catalogos.remove(position);
         mAdapter.notifyItemRemoved(position);
-    }
+    }*/
     private int getId(int position) {
         return categorias.get(position).getIdcategoria();
     }

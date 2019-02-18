@@ -56,7 +56,7 @@ public class ProductoActivity extends AppCompatActivity {
             int id = bundle.getInt("idCategoria");
             //Toast.makeText(ProductoActivity.this, ""+id, Toast.LENGTH_LONG).show();
             Request rq = new Request.Builder()
-                    .url("http://192.168.1.13:8080/PataconeraExpressBackend/api/productos/categoria/id/"+id)
+                    .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/categoria/id/"+id)
                     .build();
             OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
                 @Override

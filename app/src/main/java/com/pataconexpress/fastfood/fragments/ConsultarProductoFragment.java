@@ -166,7 +166,7 @@ public class ConsultarProductoFragment extends Fragment {
                 .host(getString(R.string.ip))
                 //.host("192.168.1.13")
                 .port(8080)
-                .addPathSegments("PataconeraExpressBackend/api/productos/search")
+                .addPathSegments("PataconeraExpress/api/productos/search")
                 .addQueryParameter("nombre",nombreProd)
                 .addQueryParameter("precio",String.valueOf(precioProd))
                 .addQueryParameter("idCat",String.valueOf(catProd.getIdcategoria()))
