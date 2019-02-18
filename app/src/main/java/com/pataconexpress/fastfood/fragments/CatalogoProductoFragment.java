@@ -227,4 +227,5 @@ public class CatalogoProductoFragment extends Fragment {
         return categorias.get(position).getIdcategoria();
     }
 
+
 }

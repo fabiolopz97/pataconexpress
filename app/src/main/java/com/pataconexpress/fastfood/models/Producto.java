@@ -3,7 +3,9 @@ package com.pataconexpress.fastfood.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
     @SerializedName("idprodutos")
     @Expose
     private int idproducto;

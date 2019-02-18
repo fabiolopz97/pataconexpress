@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -96,9 +97,12 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
             switch (item.getItemId()){
                 case R.id.add_product:
                     Intent intent = new Intent(activity, ProductoPedidoActivity.class);
+                    Producto producto = productos.get(getAdapterPosition());
+                    Log.i("Producto selecciona--->",producto.getNombre());
+                    intent.putExtra("producto",producto);
                     activity.startActivity(intent);
                     //productos.remove(getAdapterPosition());
-                    //notifyItemRemoved(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
                     return true;
                 default:
                     return false;
