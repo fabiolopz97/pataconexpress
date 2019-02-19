@@ -53,36 +53,44 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener{
         public TextView textViewNombre;
-        public TextView textViewDescripcion;
+        //public TextView textViewDescripcion;
         public TextView textViewMostrarContador;
+        public TextView textViewPrecio;
         public TextView textViewTotal;
         public ImageView imageViewList;
         public ImageButton buttonIncrementar;
         public ImageButton buttonDecrementar;
-        public int count = 1;
+        public int count;
+        public int resultado;
 
         public ViewHolder(View itemView){
             super(itemView);
             this.textViewNombre = (TextView) itemView.findViewById(R.id.textViewNombreProd);
-            this.textViewDescripcion = (TextView) itemView.findViewById(R.id.textViewDescripcionProd);
+            //this.textViewDescripcion = (TextView) itemView.findViewById(R.id.textViewDescripcionProd);
+            this.textViewPrecio = (TextView) itemView.findViewById(R.id.textViewPrecioProd);
             this.textViewTotal = (TextView) itemView.findViewById(R.id.textViewTotalProd);
             this.textViewMostrarContador = (TextView) itemView.findViewById(R.id.textViewMostrarContador);
             this.imageViewList = (ImageView) itemView.findViewById(R.id.imageViewList);
             this.buttonIncrementar = (ImageButton) itemView.findViewById(R.id.buttonIncrementar);
             this.buttonDecrementar = (ImageButton) itemView.findViewById(R.id.buttonDecrementar);
+            count = 1;
+            resultado = 0;
             itemView.setOnCreateContextMenuListener(this);
         }
 
         public void bind(final ProductoPedido productoPedido, final MyAdacterProductoPedido.OnItemClickListener listener) {
             this.textViewNombre.setText(productoPedido.getNombre());
-            this.textViewDescripcion.setText(productoPedido.getDescripcion());
-            this.textViewTotal.setText("Total: "+productoPedido.getValor());
-            this.imageViewList.setImageResource(productoPedido.getImgBackground());
+            //this.textViewDescripcion.setText(productoPedido.getDescripcion());
+            this.textViewPrecio.setText("Precio: $"+productoPedido.getValor());
+            this.imageViewList.setImageResource(R.drawable.ic_menu_gallery);
+            this.textViewTotal.setText("Total: $"+productoPedido.getValor());
             //Button incrementar contador
             this.buttonIncrementar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     textViewMostrarContador.setText("" + (++count));
+                    resultado = (int)productoPedido.getValor() * count;
+                    textViewTotal.setText("Total: $"+resultado);
                 }
             });
             //Button Decrementar contador
@@ -91,6 +99,9 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
                 public void onClick(View v) {
                     if(count > 1) {
                         textViewMostrarContador.setText("" + (--count));
+                        resultado = (int)productoPedido.getValor() * count;
+                        textViewTotal.setText("Total: $"+resultado);
+                        productosPedidos.get(getAdapterPosition()).setTotalProducto(resultado);
                     }
                 }
             });
