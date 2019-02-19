@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,15 +54,22 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener{
         public TextView textViewNombre;
         public TextView textViewDescripcion;
+        public TextView textViewMostrarContador;
         public TextView textViewTotal;
         public ImageView imageViewList;
+        public ImageButton buttonIncrementar;
+        public ImageButton buttonDecrementar;
+        public int count = 1;
 
         public ViewHolder(View itemView){
             super(itemView);
             this.textViewNombre = (TextView) itemView.findViewById(R.id.textViewNombreProd);
             this.textViewDescripcion = (TextView) itemView.findViewById(R.id.textViewDescripcionProd);
             this.textViewTotal = (TextView) itemView.findViewById(R.id.textViewTotalProd);
+            this.textViewMostrarContador = (TextView) itemView.findViewById(R.id.textViewMostrarContador);
             this.imageViewList = (ImageView) itemView.findViewById(R.id.imageViewList);
+            this.buttonIncrementar = (ImageButton) itemView.findViewById(R.id.buttonIncrementar);
+            this.buttonDecrementar = (ImageButton) itemView.findViewById(R.id.buttonDecrementar);
             itemView.setOnCreateContextMenuListener(this);
         }
 
@@ -69,6 +78,22 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
             this.textViewDescripcion.setText(productoPedido.getDescripcion());
             this.textViewTotal.setText("Total: "+productoPedido.getValor());
             this.imageViewList.setImageResource(productoPedido.getImgBackground());
+            //Button incrementar contador
+            this.buttonIncrementar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    textViewMostrarContador.setText("" + (++count));
+                }
+            });
+            //Button Decrementar contador
+            this.buttonDecrementar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(count > 1) {
+                        textViewMostrarContador.setText("" + (--count));
+                    }
+                }
+            });
             //Picasso.with(activity.getContext()).load(catalogo.getImgBackground()).fit().into(this.imageViewGrid);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

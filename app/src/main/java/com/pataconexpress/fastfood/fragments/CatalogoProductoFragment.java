@@ -100,7 +100,7 @@ public class CatalogoProductoFragment extends Fragment {
 
         //Consulta realizada para traer las categorias
         Request rq = new Request.Builder()
-                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
+                .url("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
             @Override

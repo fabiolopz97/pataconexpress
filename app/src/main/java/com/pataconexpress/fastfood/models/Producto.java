@@ -21,6 +21,7 @@ public class Producto {
     private CategoriaDTO categoriasIdcategoria;
     //ignorada
     private int imgBackground;
+    private boolean isSelected;
 
     public Producto() {
     }
@@ -29,6 +30,7 @@ public class Producto {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
+        this.isSelected = false;
     }
     public Producto(int idproducto, String nombre, String descripcion, double valor, int imgBackground) {
         this.idproducto = idproducto;
@@ -36,12 +38,14 @@ public class Producto {
         this.descripcion = descripcion;
         this.valor = valor;
         this.imgBackground = imgBackground;
+        this.isSelected = false;
     }
     public Producto(String nombre, String descripcion, double valor, int imgBackground) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
         this.imgBackground = imgBackground;
+        this.isSelected = false;
     }
 
     public int getIdProducto() {
@@ -90,5 +94,13 @@ public class Producto {
 
     public void setCategoriasIdcategoria(CategoriaDTO categoriasIdcategoria) {
         this.categoriasIdcategoria = categoriasIdcategoria;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
