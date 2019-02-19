@@ -106,7 +106,7 @@ public class ConsultarProductoFragment extends Fragment {
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioCons);
 
         Request rq = new Request.Builder()
-                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
+                .url("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/categorias/")
                 //.url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
@@ -152,21 +152,26 @@ public class ConsultarProductoFragment extends Fragment {
     }
 
     private void consultarProductos(View v) {
-        String nombreProd;
-        String descProd;
-        double precioProd;
+        String nombreProd = "";
+        String descProd = "";
+        double precioProd = 0.0;
         CategoriaDTO catProd;
         nombreProd = editTextNombre.getText().toString();
         descProd = editTextDescripcion.getText().toString();
-        precioProd = Double.parseDouble(editTextPrecio.getText().toString());
+        if(editTextPrecio.getText().toString() != "") {
+            precioProd = Double.parseDouble(editTextPrecio.getText().toString());
+        }
         catProd = (CategoriaDTO) spinnerCategoria.getSelectedItem();
+
+        /*Intent enviarProducto = new Intent(getContext(), ProductoActivity.class);
+        enviarProducto.putExtra("idCategoria", 3);
+        startActivity(enviarProducto);*/
 
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("http")
                 .host(getString(R.string.ip))
-                //.host("192.168.1.13")
                 .port(8080)
-                .addPathSegments("PataconeraExpress/api/productos/search")
+                .addPathSegments(getString(R.string.path) + "/api/productos/search")
                 .addQueryParameter("nombre",nombreProd)
                 .addQueryParameter("precio",String.valueOf(precioProd))
                 .addQueryParameter("idCat",String.valueOf(catProd.getIdcategoria()))
@@ -183,42 +188,42 @@ public class ConsultarProductoFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()) {
-                    String rta = response.body().toString();
-                    Log.i("respuesta",rta);
+            public void onResponse(Call call, final Response response) throws IOException {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(response.isSuccessful()) {
+                            String rta = response.body().toString();
+                            Log.i("respuesta",rta);
 
-                    //mapear lista de productos
-                    List<Producto>productos = GsonImpl.listFromJsonV(rta,Producto.class);
-                    if(productos!=null){
-                        //Intent nueva = new Intent(getContext(), CatalogoProductoFragment.class);
-                        //nueva.putExtra("hola", "key");
-                        //startActivity(nueva);
-                        //aqui debe ir lo de listar los productos en la otra pestaña
-                    }else{
-                        //Toas messsage
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getActivity().getApplicationContext(), "La busqueda no arrojo resultados", Toast.LENGTH_LONG).show();
+                            //mapear lista de productos
+                            List<Producto>productos = GsonImpl.listFromJsonV(rta,Producto.class);
+                            if(productos!=null){
+                                //Intent nueva = new Intent(getContext(), CatalogoProductoFragment.class);
+                                //nueva.putExtra("hola", "key");
+                                //startActivity(nueva);
+                                //aqui debe ir lo de listar los productos en la otra pestaña
+                            }else{
+                                //Toas messsage
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getActivity().getApplicationContext(), "La busqueda no arrojo resultados", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
-                        });
+
+
+
+                             // FABIO tu continuas aqui.
+                             // Debes coger el arreglo y mandarlo a la otra parte que es la lista productos para mostrarlos y ya
+
+
+                        }
                     }
-
-
-                    /**
-                     * FABIO tu continuas aqui.
-                     * Debes coger el arreglo y mandarlo a la otra parte que es la lista productos para mostrarlos y ya
-                     *
-                     */
-                }
+                });
             }
         });
-
-
-
-
-
 
     }
 

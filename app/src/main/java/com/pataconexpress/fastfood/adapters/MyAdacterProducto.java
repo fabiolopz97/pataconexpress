@@ -2,9 +2,11 @@ package com.pataconexpress.fastfood.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.activity.ProductoPedidoActivity;
 import com.pataconexpress.fastfood.models.Producto;
@@ -58,6 +62,7 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
         public TextView textViewDescripcion;
         public TextView textViewTotal;
         public ImageView imageViewList;
+        public int lastSelectedPosition = -1;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -73,23 +78,39 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
             this.textViewDescripcion.setText(producto.getDescripcion());
             this.textViewTotal.setText("Total: $"+producto.getValor());
             this.imageViewList.setImageResource(R.drawable.ic_menu_gallery);
+            imageViewList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //  Aqui el codigo de cambio de imagen (pendiente)
+                    if(!producto.isSelected()) {
+                        //Log.i("resultado --> ", "hola");
+                        producto.setSelected(true);
+                        imageViewList.setImageResource(R.drawable.ic_check_box);
+                    } else {
+                        producto.setSelected(false);
+                        imageViewList.setImageResource(R.drawable.ic_menu_gallery);
+                    }
+
+                }
+            });
             //Picasso.with(activity.getContext()).load(catalogo.getImgBackground()).fit().into(this.imageViewGrid);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(producto, getAdapterPosition());
+                    //v.setBackgroundColor(producto.isSelected() ? Color.WHITE : Color.CYAN);
                 }
             });
         }
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            Producto productoSelecionado = productos.get(this.getAdapterPosition());
+           /* Producto productoSelecionado = productos.get(this.getAdapterPosition());
             menu.setHeaderTitle(productoSelecionado.getNombre());
             MenuInflater inflater = activity.getMenuInflater();
             inflater.inflate(R.menu.context_menu, menu);
 
-            menu.getItem(0).setOnMenuItemClickListener(this);
+            menu.getItem(0).setOnMenuItemClickListener(this);*/
         }
 
         @Override
@@ -101,6 +122,7 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
                     Log.i("Producto selecciona--->",producto.getNombre());
                     intent.putExtra("producto",producto);
                     activity.startActivity(intent);
+
                     //productos.remove(getAdapterPosition());
                     notifyItemRemoved(getAdapterPosition());
                     return true;

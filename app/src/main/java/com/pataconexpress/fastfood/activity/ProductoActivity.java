@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,7 +57,7 @@ public class ProductoActivity extends AppCompatActivity {
             int id = bundle.getInt("idCategoria");
             //Toast.makeText(ProductoActivity.this, ""+id, Toast.LENGTH_LONG).show();
             Request rq = new Request.Builder()
-                    .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/categoria/id/"+id)
+                    .url("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/productos/categoria/id/"+id)
                     .build();
             OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
                 @Override
@@ -100,6 +101,29 @@ public class ProductoActivity extends AppCompatActivity {
 
         } else {
             Toast.makeText(ProductoActivity.this, "El resultado esta vacío", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_producto, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.send_product:
+                //Aqui el codigo donde mandas al activity Pedido
+
+                return true;
+            case R.id.cancel_product:
+                return true;
+            case R.id.check_product:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

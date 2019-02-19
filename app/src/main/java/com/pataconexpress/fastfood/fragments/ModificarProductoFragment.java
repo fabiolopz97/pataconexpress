@@ -109,7 +109,7 @@ public class ModificarProductoFragment extends Fragment {
         editTextPrecio = (EditText) view.findViewById(R.id.editTextPrecioMod);
 
         Request rq = new Request.Builder()
-                .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/categorias/")
+                .url("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/categorias/")
                 //.url("http://192.168.1.13:8080/PataconeraExpressBackend/api/categorias/")
                 .build();
         OkHttpImpl.newHttpCall(rq).enqueue(new Callback() {
@@ -178,7 +178,7 @@ public class ModificarProductoFragment extends Fragment {
         RequestBody body = RequestBody.create(OkHttpImpl.JSON, json);
         Log.i("JSON",json);
         //llamado a la api
-        OkHttpImpl.newHttpCall(OkHttpImpl.getPuttRequest("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/edit/"
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPuttRequest("http://"+getString(R.string.ip)+":8080/" + getString(R.string.path) + "/api/productos/edit/"
                 +productoModificado.getIdProducto(), body))
                 .enqueue(new Callback() {
                     @Override
@@ -222,7 +222,7 @@ public class ModificarProductoFragment extends Fragment {
         String nombre = editTextNombre.getText().toString();
         if(nombre != null){
             Request rq = new Request.Builder()
-                    .url("http://"+getString(R.string.ip)+":8080/PataconeraExpress/api/productos/nombre/"+nombre)
+                    .url("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/productos/nombre/"+nombre)
                     //.url("http://192.168.1.4:8080/PataconeraExpressBackend/api/productos/nombre/"+nombre)
                     .build();
 
