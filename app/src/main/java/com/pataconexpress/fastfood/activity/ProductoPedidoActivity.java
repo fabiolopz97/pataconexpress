@@ -33,6 +33,9 @@ public class ProductoPedidoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto_pedido);
 
+        //Captura del id categoria
+        Bundle bundle = getIntent().getExtras();
+
         //menu
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Pedido");
