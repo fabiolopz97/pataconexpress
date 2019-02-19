@@ -113,7 +113,7 @@ public class CatalogoProductoFragment extends Fragment {
                 if (response.isSuccessful()){
                     String rta = response.body().string();
 
-                    Log.i("respuesta -->> ",rta);
+                    //Log.i("respuesta -->> ",rta);
 
                     categorias = GsonImpl.listFromJsonV(rta, CategoriaDTO.class);
                     final List<CategoriaDTO> cats = categorias;
@@ -131,9 +131,6 @@ public class CatalogoProductoFragment extends Fragment {
                                         public void onItemClick(CategoriaDTO categoria, int position) {
                                             //Toast.makeText(getContext(), ("resultado: "+getId(position)), Toast.LENGTH_LONG).show();
                                             Intent intentProducto = new Intent(getContext(), ProductoActivity.class);
-                                            Log.i("posicion",position+"");
-                                            Log.i("IdCategoria",getId(position)+"");
-                                            Log.i("Categoria",categorias.get(position).getNombreCat()+"");
                                             intentProducto.putExtra("idCategoria", getId(position));
                                             startActivity(intentProducto);
                                         }
@@ -149,12 +146,6 @@ public class CatalogoProductoFragment extends Fragment {
                 }
             }
         });
-
-
-        //catalogos = this.getAllCatalogos();
-
-
-
         return view;
     }
 

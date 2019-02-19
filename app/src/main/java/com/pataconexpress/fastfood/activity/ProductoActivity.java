@@ -139,14 +139,14 @@ public class ProductoActivity extends AppCompatActivity {
         }
     }
 
-    private List<Producto> getAllProductos () {
+  /*  private List<Producto> getAllProductos () {
         return new ArrayList<Producto>(){{
             add(new Producto("Nombre", "descripción", 100000, R.drawable.ic_launcher_background));
             add(new Producto("Nombre1", "descripción", 200000, R.drawable.ic_menu_camera));
             add(new Producto("Nombre2", "descripción", 200000, R.drawable.ic_menu_gallery));
             add(new Producto("Nombre3", "descripción", 100000, R.drawable.ic_menu_delete));
         }};
-    }
+    }*/
 
     private void addProduct(int position) {
         productos.add(position, new Producto("hola", "descripción", 100000, R.drawable.ic_launcher_background));
