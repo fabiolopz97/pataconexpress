@@ -3,6 +3,7 @@ package com.pataconexpress.fastfood.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -167,7 +168,7 @@ public class RegistrarProductoFragment extends Fragment {
         RequestBody body = RequestBody.create(OkHttpImpl.JSON, json);
         Log.i("JSON",json);
 
-        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://" + getString(R.string.ip) + "8080/" + getString(R.string.path) + "/api/productos/create", body))
+        OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://" + getString(R.string.ip) + ":8080/" + getString(R.string.path) + "/api/productos/create", body))
         //OkHttpImpl.newHttpCall(OkHttpImpl.getPostRequest("http://192.168.1.13:8080/PataconeraExpressBackend/api/productos/create", body))
                 .enqueue(new Callback() {
                    @Override
@@ -189,13 +190,19 @@ public class RegistrarProductoFragment extends Fragment {
                            getActivity().runOnUiThread(new Runnable() {
                                @Override
                                public void run() {
-                                   Toast.makeText(getActivity().getApplicationContext(),rta,Toast.LENGTH_LONG).show();
+                                  // Toast.makeText(getActivity().getApplicationContext(),rta,Toast.LENGTH_LONG).show();
+                                   Snackbar.make(getView(),rta,
+                                           Snackbar.LENGTH_SHORT)
+                                           .show();
                                }
                            });
                        }else getActivity().runOnUiThread(new Runnable() {
                            @Override
                            public void run() {
-                               Toast.makeText(getActivity().getApplicationContext(), rta, Toast.LENGTH_LONG).show();
+                               Snackbar.make(getView(),rta,
+                                       Snackbar.LENGTH_SHORT)
+                                       .show();
+                              // Toast.makeText(getActivity().getApplicationContext(), rta, Toast.LENGTH_LONG).show();
                            }
                        });
 

@@ -21,12 +21,14 @@ import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.activity.ProductoPedidoActivity;
 import com.pataconexpress.fastfood.models.Producto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
 public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.ViewHolder> {
     private List<Producto> productos;
+    private List<Producto> productosSeleccionados;
     private int layout;
     private Activity activity;
     private MyAdacterProducto.OnItemClickListener listener;
@@ -36,6 +38,10 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
         this.layout = layout;
         this.activity = activity;
         this.listener = listener;
+        productosSeleccionados = new ArrayList<>();
+    }
+    public List<Producto> getProductosSeleccionados(){
+        return productosSeleccionados;
     }
 
     @NonNull
@@ -85,10 +91,12 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
                     if(!producto.isSelected()) {
                         //Log.i("resultado --> ", "hola");
                         producto.setSelected(true);
+                        productosSeleccionados.add(producto);
                         imageViewList.setImageResource(R.drawable.ic_check_box);
                     } else {
                         producto.setSelected(false);
                         imageViewList.setImageResource(R.drawable.ic_menu_gallery);
+                        productosSeleccionados.remove(producto);
                     }
 
                 }
@@ -135,4 +143,6 @@ public class MyAdacterProducto extends RecyclerView.Adapter<MyAdacterProducto.Vi
     public interface OnItemClickListener {
         void onItemClick(Producto producto, int position);
     }
+
+
 }

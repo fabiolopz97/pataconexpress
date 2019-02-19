@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.pataconexpress.fastfood.fragments.CatalogoFragment;
 import com.pataconexpress.fastfood.fragments.CatalogoProductoFragment;
 import com.pataconexpress.fastfood.fragments.RegistrarProductoFragment;
 import com.pataconexpress.fastfood.fragments.ConsultarProductoFragment;

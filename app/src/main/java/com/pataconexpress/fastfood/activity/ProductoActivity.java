@@ -1,5 +1,7 @@
 package com.pataconexpress.fastfood.activity;
 
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +38,7 @@ public class ProductoActivity extends AppCompatActivity {
     private Producto producto;
     private List<Producto> productos;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdacterProducto mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int counter = 0;
 
@@ -67,15 +69,15 @@ public class ProductoActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
+
+
                     if(response.isSuccessful()){
+                        final String rta = response.body().string();
+                        productos = GsonImpl.listFromJsonV(rta, Producto.class);
+                        Log.i("respuesta ->> ",rta);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                String rta = null;
-                                try {
-                                    rta = response.body().string();
-                                    Log.i("respuesta ->> ",rta);
-                                    productos = GsonImpl.listFromJsonV(rta, Producto.class);
                                     //List<Producto> pto = productos;
                                     //--Ingreso de datos en el recycleview
                                     mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewListProducto);
@@ -84,15 +86,12 @@ public class ProductoActivity extends AppCompatActivity {
                                     mAdapter = new MyAdacterProducto(productos, R.layout.list_producto, ProductoActivity.this, new MyAdacterProducto.OnItemClickListener(){
                                         @Override
                                         public void onItemClick(Producto producto, int position) {
-                                            //Toast.makeText(ProductoActivity.this, "hola a", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                                     mRecyclerView.setLayoutManager(mLayoutManager);
                                     mRecyclerView.setAdapter(mAdapter);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+
                             }
                         });
                     }
@@ -115,6 +114,19 @@ public class ProductoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.send_product:
+               List<Producto>seleccion = mAdapter.getProductosSeleccionados();
+               if(!seleccion.isEmpty()){
+                 //  Log.i("seleccionados",seleccion.get(0).getNombre());
+                   Intent intent = new Intent(this,ProductoPedidoActivity.class);
+                   intent.putExtra("seleccionados",GsonImpl.objectToJSon(seleccion));
+                   startActivity(intent);
+                   // envio los datos al antivity pedido
+               }else{
+                   Snackbar.make(findViewById(R.id.recyclerViewListProducto),"Productos no seleccionado(s)",
+                           Snackbar.LENGTH_SHORT)
+                           .show();
+               }
+
                 //Aqui el codigo donde mandas al activity Pedido
 
                 return true;
