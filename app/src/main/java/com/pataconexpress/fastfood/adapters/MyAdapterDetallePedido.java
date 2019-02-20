@@ -9,41 +9,42 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pataconexpress.fastfood.R;
+import com.pataconexpress.fastfood.models.DetallePedido;
 import com.pataconexpress.fastfood.models.Producto;
-import com.pataconexpress.fastfood.models.ProductoPedido;
 
 import java.util.List;
 
-public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProductoPedido.ViewHolder> {
-    private List<Producto> productosPedidos;
+public class MyAdapterDetallePedido extends RecyclerView.Adapter<MyAdapterDetallePedido.ViewHolder> {
+
+    private List<DetallePedido> productosPedidos;
     private int layout;
     private Activity activity;
-    private MyAdacterProductoPedido.OnItemClickListener listener;
+    private MyAdapterDetallePedido.OnItemClickListener listener;
+    private final TextView txtResultado;
 
-    public MyAdacterProductoPedido(List<Producto> productosPedidos, int layout, Activity activity, MyAdacterProductoPedido.OnItemClickListener listener) {
+    public MyAdapterDetallePedido(List<DetallePedido> productosPedidos, int layout, Activity activity, MyAdapterDetallePedido.OnItemClickListener listener) {
         this.productosPedidos = productosPedidos;
         this.layout = layout;
         this.activity = activity;
         this.listener = listener;
+        txtResultado = activity.findViewById(R.id.textViewRegistrarTotal);
     }
-
     @NonNull
     @Override
-    public MyAdacterProductoPedido.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyAdapterDetallePedido.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(layout, viewGroup, false);
-        MyAdacterProductoPedido.ViewHolder viewHolder = new MyAdacterProductoPedido.ViewHolder(view);
+        MyAdapterDetallePedido.ViewHolder viewHolder = new MyAdapterDetallePedido.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdacterProductoPedido.ViewHolder viewHolder, int i) {
-        viewHolder.bind(productosPedidos.get(i), listener);
+    public void onBindViewHolder(@NonNull MyAdapterDetallePedido.ViewHolder viewHolder, int i) {
+        viewHolder.bind(productosPedidos.get(i).getProdutosIdprodutos(), listener);
     }
 
     @Override
@@ -75,10 +76,11 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
             this.buttonDecrementar = (ImageButton) itemView.findViewById(R.id.buttonDecrementar);
             count = 1;
             resultado = 0;
+            inicializarResultado();
             itemView.setOnCreateContextMenuListener(this);
         }
 
-        public void bind(final Producto productoPedido, final MyAdacterProductoPedido.OnItemClickListener listener) {
+        public void bind(final Producto productoPedido, final MyAdapterDetallePedido.OnItemClickListener listener) {
             this.textViewNombre.setText(productoPedido.getNombre());
             //this.textViewDescripcion.setText(productoPedido.getDescripcion());
             this.textViewPrecio.setText("Precio: $"+productoPedido.getValor());
@@ -91,6 +93,9 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
                     textViewMostrarContador.setText("" + (++count));
                     resultado = (int)productoPedido.getValor() * count;
                     textViewTotal.setText("Total: $"+resultado);
+                    productosPedidos.get(getAdapterPosition()).setCantidad(count);
+                    productosPedidos.get(getAdapterPosition()).setMonto(resultado);
+                    actualizarMontoTotal();
                 }
             });
             //Button Decrementar contador
@@ -101,11 +106,12 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
                         textViewMostrarContador.setText("" + (--count));
                         resultado = (int)productoPedido.getValor() * count;
                         textViewTotal.setText("Total: $"+resultado);
-                        //productosPedidos.get(getAdapterPosition()).setTotalProducto(resultado);
+                        productosPedidos.get(getAdapterPosition()).setCantidad(count);
+                        productosPedidos.get(getAdapterPosition()).setMonto(resultado);
+                        actualizarMontoTotal();
                     }
                 }
             });
-            //Picasso.with(activity.getContext()).load(catalogo.getImgBackground()).fit().into(this.imageViewGrid);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,7 +122,7 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            Producto productoSelecionado = productosPedidos.get(this.getAdapterPosition());
+            Producto productoSelecionado = productosPedidos.get(this.getAdapterPosition()).getProdutosIdprodutos();
             menu.setHeaderTitle(productoSelecionado.getNombre());
             MenuInflater inflater = activity.getMenuInflater();
             inflater.inflate(R.menu.context_menu_delete, menu);
@@ -136,7 +142,27 @@ public class MyAdacterProductoPedido extends RecyclerView.Adapter<MyAdacterProdu
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(Producto productoPedido, int position);
+    private void inicializarResultado() {
+        double montoTotal = 0;
+        for (DetallePedido dt : productosPedidos){
+            montoTotal += dt.getProdutosIdprodutos().getValor();
+        }
+        txtResultado.setText(String.valueOf(montoTotal));
     }
+
+    private void actualizarMontoTotal() {
+        double montoTotal = 0;
+        for (DetallePedido dt : productosPedidos){
+              montoTotal += dt.getMonto();
+        }
+        txtResultado.setText(String.valueOf(montoTotal));
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Producto producto, int position);
+    }
+    public List<DetallePedido> getDetalles(){
+        return productosPedidos;
+    }
+
 }

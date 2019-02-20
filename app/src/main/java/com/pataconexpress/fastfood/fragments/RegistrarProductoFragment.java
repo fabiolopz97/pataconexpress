@@ -205,9 +205,6 @@ public class RegistrarProductoFragment extends Fragment {
                               // Toast.makeText(getActivity().getApplicationContext(), rta, Toast.LENGTH_LONG).show();
                            }
                        });
-
-
-
                    }
         });
     }

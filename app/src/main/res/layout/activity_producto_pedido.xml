@@ -24,7 +24,7 @@
             tools:layout_editor_absoluteY="115dp"></android.support.v7.widget.RecyclerView>
 
         <TextView
-            android:id="@+id/textViewrRegistrarTotal"
+            android:id="@+id/textViewRegistrarTotal"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:textSize="20dp"

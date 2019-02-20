@@ -8,17 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.activity.ProductoActivity;
 import com.pataconexpress.fastfood.adapters.MyAdacterCatalogo;
-import com.pataconexpress.fastfood.models.Catalogo;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
 import com.pataconexpress.fastfood.utils.GsonImpl;
 import com.pataconexpress.fastfood.utils.OkHttpImpl;
@@ -51,7 +48,7 @@ public class CatalogoProductoFragment extends Fragment {
     private String mParam2;
 
     // Atributos
-    private Catalogo catalogo;
+    //private Catalogo catalogo;
     RecyclerView mRecyclerView;
    // private List<Catalogo> catalogos;
     private RecyclerView.Adapter mAdapter;
@@ -200,13 +197,13 @@ public class CatalogoProductoFragment extends Fragment {
         return true;
     }
 
-    private List<Catalogo> getAllCatalogos () {
+   /*private List<Catalogo> getAllCatalogos () {
         return new ArrayList<Catalogo>(){{
             add(new Catalogo("holaaaa", R.drawable.ic_menu_delete));
             add(new Catalogo("hola", R.drawable.ic_menu_camera));
             add(new Catalogo("hola", R.drawable.ic_menu_gallery));
         }};
-    }
+    }*/
 
     /*private void addCatalogo(int position) {
         catalogos.add(position, new Catalogo("hola", R.drawable.ic_launcher_background));
