@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.pataconexpress.fastfood.R;
-import com.pataconexpress.fastfood.models.Catalogo;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
 
 import java.util.List;

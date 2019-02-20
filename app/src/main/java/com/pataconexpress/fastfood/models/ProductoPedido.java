@@ -3,16 +3,14 @@ package com.pataconexpress.fastfood.models;
 public class ProductoPedido extends Producto{
     private int cantidad;
     private int totalProducto;
-    private int valorTotal;
 
     public ProductoPedido() {
     }
 
-    public ProductoPedido(String nombre, String descripcion, int valor, int imgBackground, int cantidad, int totalProducto, int valorTotal) {
+    public ProductoPedido(String nombre, String descripcion, int valor, int imgBackground, int cantidad, int totalProducto) {
         super(nombre, descripcion, valor, imgBackground);
         this.cantidad = cantidad;
         this.totalProducto = totalProducto;
-        this.valorTotal = valorTotal;
     }
 
     public int getCantidad() {
@@ -29,14 +27,6 @@ public class ProductoPedido extends Producto{
 
     public void setTotalProducto(int totalProducto) {
         this.totalProducto = totalProducto;
-    }
-
-    public int getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(int valorTotal) {
-        this.valorTotal = valorTotal;
     }
 
     public int totalProducto(int cantidad, int totalProducto){

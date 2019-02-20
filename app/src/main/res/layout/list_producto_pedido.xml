@@ -84,14 +84,6 @@
                 android:backgroundTint="@color/primary"
                 android:src="@drawable/ic_img_add" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/textViewDescripcionProd"
-            android:layout_width="200dp"
-            android:layout_height="35dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/primary_text"
-            android:textSize="20dp"
-            android:layout_marginTop="70dp"/>
 
         <TextView
             android:id="@+id/textViewTotalProd"
