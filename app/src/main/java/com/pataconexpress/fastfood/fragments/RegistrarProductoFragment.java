@@ -1,9 +1,11 @@
 package com.pataconexpress.fastfood.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import com.pataconexpress.fastfood.R;
 import com.pataconexpress.fastfood.models.CategoriaDTO;
 import com.pataconexpress.fastfood.models.Producto;
 import com.pataconexpress.fastfood.utils.GsonImpl;
+import com.pataconexpress.fastfood.utils.NoticeDialogFragment;
 import com.pataconexpress.fastfood.utils.OkHttpImpl;
 import java.io.IOException;
 import java.util.List;
